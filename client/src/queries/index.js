@@ -11,16 +11,56 @@ export const GET_ALL_RECIPES = gql`
   }
 `;
 
+export const GET_RECIPE = gql`
+  query($_id: ID!) {
+    getRecipe(_id: $_id) {
+      _id
+      name
+      category
+      description
+      instructions
+      likes
+      createdDate
+    }
+  }
+`;
+
+export const ADD_RECIPE = gql`
+  mutation(
+    $name: String!
+    $category: String!
+    $description: String!
+    $instructions: String!
+    $username: String
+  ) {
+    addRecipe(
+      name: $name
+      category: $category
+      description: $description
+      instructions: $instructions
+      username: $username
+    ) {
+      _id
+      name
+      category
+      description
+      instructions
+      likes
+      createdDate
+    }
+  }
+`;
+
 // User queries and mutations
 export const GET_CURRENT_USER = gql`
-query {
-  getCurrentUser {
-    _id
-    username
-    email
-    joinDate
+  query {
+    getCurrentUser {
+      _id
+      username
+      email
+      joinDate
+    }
   }
-}
 `;
 
 export const SIGNUP_USER = gql`

@@ -13,6 +13,7 @@ import AddRecipe from "./components/Recipe/AddRecipe";
 import App from "./components/App";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile/Profile";
+import RecipePage from "./components/Recipe/RecipePage";
 import Search from "./components/Recipe/Search";
 import Signin from "./components/Auth/Signin";
 import Signup from "./components/Auth/Signup";
@@ -53,7 +54,8 @@ const Root = ({ refetch, session }) => (
         <Route path="/signin" render={() => <Signin refetch={refetch} />} />
         <Route path="/signup" render={() => <Signup refetch={refetch} />} />
         <Route path="/search" component={Search} />
-        <Route path="/recipe/add" component={AddRecipe} />
+        <Route path="/recipe/add" render={() => <AddRecipe session={session} />} />
+        <Route path="/recipe/:_id" component={RecipePage} />
         <Route path="/profile" component={Profile} />
         <Redirect to="/" />
       </Switch>
