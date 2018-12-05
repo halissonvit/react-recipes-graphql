@@ -21,6 +21,18 @@ export const GET_RECIPE = gql`
       instructions
       likes
       createdDate
+      username
+    }
+  }
+`;
+
+export const SEARCH_RECIPES = gql`
+  query($searchTerm: String) {
+    searchRecipes(searchTerm: $searchTerm) {
+      _id
+      name
+      category
+      likes
     }
   }
 `;

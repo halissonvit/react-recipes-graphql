@@ -1,16 +1,23 @@
 import React from "react";
 import { Mutation } from "react-apollo";
+import { withRouter } from "react-router-dom";
 
 import Error from "../Error";
-import { ADD_RECIPE } from "../../queries";
+import { ADD_RECIPE, GET_ALL_RECIPES } from "../../queries";
+
+const initialState = {
+  name: "",
+  instructions: "",
+  category: "Breakfast",
+  description: "",
+  username: ""
+};
 
 class AddRecipe extends React.Component {
-  state = {
-    name: "",
-    instructions: "",
-    category: "Breakfast",
-    description: "",
-    username: ""
+  state = { ...initialState };
+
+  clearState = () => {
+    this.setState({ ...initialState });
   };
 
   handleChange = event => {
@@ -21,7 +28,18 @@ class AddRecipe extends React.Component {
   handleSubmit = (event, addRecipe) => {
     event.preventDefault();
     addRecipe().then(({ data }) => {
-      console.log({ data });
+      this.clearState();
+      this.props.history.push("/");
+    });
+  };
+
+  updateCache = (cache, { data: { addRecipe } }) => {
+    const { getAllRecipes } = cache.readQuery({ query: GET_ALL_RECIPES });
+    cache.writeQuery({
+      query: GET_ALL_RECIPES,
+      data: {
+        getAllRecipes: [addRecipe, ...getAllRecipes]
+      }
     });
   };
 
@@ -41,6 +59,7 @@ class AddRecipe extends React.Component {
       <Mutation
         mutation={ADD_RECIPE}
         variables={{ name, category, instructions, description, username }}
+        update={this.updateCache}
       >
         {(addRecipe, { data, loading, error }) => {
           return (
@@ -98,4 +117,4 @@ class AddRecipe extends React.Component {
   }
 }
 
-export default AddRecipe;
+export default withRouter(AddRecipe);
