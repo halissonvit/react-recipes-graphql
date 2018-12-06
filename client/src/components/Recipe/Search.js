@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ApolloConsumer } from "react-apollo";
 
-import RecipeItem from "./RecipeItem";
+import SearchItem from "./SearchItem";
 import { SEARCH_RECIPES } from "../../queries";
 
 /*
@@ -20,7 +20,7 @@ class Search extends Component {
   };
 
   handleChange = ({ searchRecipes: searchResults }) => {
-    this.setState({ searchResults })
+    this.setState({ searchResults });
   };
 
   render() {
@@ -47,10 +47,7 @@ class Search extends Component {
               />
               <ul>
                 {searchResults.map(recipe => (
-                  <React.Fragment>
-                    <RecipeItem key={recipe._id} {...recipe} />
-                    <p>Likes: {recipe.likes}</p>
-                  </React.Fragment>
+                  <SearchItem key={recipe._id} {...recipe} />
                 ))}
               </ul>
             </div>
