@@ -41,6 +41,8 @@ type Mutation {
     username: String
   ): Recipe
 
+  deleteUserRecipe(_id: ID!): Recipe
+
   signupUser(
     username: String!,
     email: String!,

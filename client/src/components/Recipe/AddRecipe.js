@@ -4,7 +4,12 @@ import { withRouter } from "react-router-dom";
 
 import Error from "../Error";
 import withAuth from "../withAuth";
-import { ADD_RECIPE, GET_ALL_RECIPES } from "../../queries";
+import {
+  ADD_RECIPE,
+  GET_ALL_RECIPES,
+  GET_CURRENT_USER,
+  GET_USER_RECIPES
+} from "../../queries";
 
 const initialState = {
   name: "",
@@ -60,6 +65,11 @@ class AddRecipe extends React.Component {
       <Mutation
         mutation={ADD_RECIPE}
         variables={{ name, category, instructions, description, username }}
+        refetchQueries={() => [
+          { query: GET_ALL_RECIPES },
+          { query: GET_CURRENT_USER },
+          { query: GET_USER_RECIPES, variables: { username } }
+        ]}
         update={this.updateCache}
       >
         {(addRecipe, { data, loading, error }) => {
